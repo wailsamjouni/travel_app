@@ -17,7 +17,7 @@ final List<Hotel> hotels = [
     'assets/images/hotel0.jpg',
     'Hotel 0',
     '404 Great St',
-    175,
+    190,
   ),
   Hotel(
     'assets/images/hotel1.jpg',
@@ -29,6 +29,6 @@ final List<Hotel> hotels = [
     'assets/images/hotel2.jpg',
     'Hotel 2',
     '404 Great St',
-    240,
+    237,
   ),
 ];

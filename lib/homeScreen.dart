@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:travel_clone_app/widgets/destination.dart';
+import 'package:travel_clone_app/widgets/destination_bar.dart';
+import 'package:travel_clone_app/widgets/hotel_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -8,31 +9,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 0;
+  int isSelected = 0;
+  int currentSelectedIndex = 0;
 
   List<IconData> listIcon = [
     FontAwesomeIcons.plane,
     FontAwesomeIcons.bed,
     FontAwesomeIcons.walking,
-    FontAwesomeIcons.biking
+    FontAwesomeIcons.biking,
   ];
 
   Widget createIcon(int index) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedIndex = index;
+          isSelected = index;
         });
       },
       child: Container(
         height: 60.0,
         width: 60.0,
         decoration: BoxDecoration(
-          color: selectedIndex == index ? Colors.black : Color(0xFF696565),
+          color: isSelected == index
+              ? Theme.of(context).accentColor
+              : Color(0xFFE7EbEE),
           borderRadius: BorderRadius.circular(30.0),
         ),
         child: Icon(listIcon[index],
-            size: 24.0, color: Theme.of(context).accentColor),
+            size: 24.0,
+            color: isSelected == index
+                ? Theme.of(context).primaryColor
+                : Color(0xFFB4C1C4)),
       ),
     );
   }
@@ -47,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 125.0),
               child: Text(
-                "What would you like to search",
+                "What would you like to search ?",
                 style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
               ),
             ),
@@ -65,9 +72,43 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 20.0,
             ),
-            Destination(),
+            DestinationBar(),
+            SizedBox(height: 20.0),
+            HotelBar(),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentSelectedIndex,
+        onTap: (int value) {
+          setState(() {
+            currentSelectedIndex = value;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.search,
+              size: 29.0,
+            ),
+            title: SizedBox.shrink(),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.local_pizza,
+              size: 29.0,
+            ),
+            title: SizedBox.shrink(),
+          ),
+          BottomNavigationBarItem(
+            icon: CircleAvatar(
+              radius: 16.0,
+              backgroundImage: NetworkImage(
+                  'https://z5b2s6y7.rocketcdn.me/wp-content/uploads/2018/06/avatar.png'),
+            ),
+            title: SizedBox.shrink(),
+          ),
+        ],
       ),
     );
   }
